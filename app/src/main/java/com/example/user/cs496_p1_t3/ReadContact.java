@@ -1,23 +1,38 @@
 package com.example.user.cs496_p1_t3;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class ReadContact extends Activity {
+public class ReadContact extends Fragment {
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.readcontact);
+    public ReadContact(){
 
-        ContentResolver cr = getContentResolver();
+    }
+
+    public static Context contextOfApplication;
+    public static Context getContextOfApplication()
+    {
+        return contextOfApplication;
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedlnstanceState) {
+        View view = null;
+
+        Context applicationContext = ReadContact.getContextOfApplication();
+        ContentResolver cr = applicationContext.getContentResolver();
         Cursor cursor = cr.query(
                 ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
 
@@ -61,10 +76,12 @@ public class ReadContact extends Activity {
         }
         cursor.close();
 
-        TextView txtResult = (TextView)findViewById(R.id.result);
+        TextView txtResult = (TextView)getView().findViewById(R.id.result);
         txtResult.setText(result);
 
+        view = inflater.inflate(R.layout.readcontact, container, false);
 
+        return view;
     }
 
 }
