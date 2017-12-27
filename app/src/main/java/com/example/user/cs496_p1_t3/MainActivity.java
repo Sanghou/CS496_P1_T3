@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction tr = fm.beginTransaction();
 
-            Fragment frag1 = new Textfrag();
+            Fragment frag1 = new ReadContact();
             Fragment frag2 = new Imagefrag();
             Fragment frag3 = new freefrag();
 
