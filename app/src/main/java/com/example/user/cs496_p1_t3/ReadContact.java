@@ -10,6 +10,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,17 +23,11 @@ public class ReadContact extends Fragment {
 
     }
 
-    public static Context contextOfApplication;
-    public static Context getContextOfApplication()
-    {
-        return contextOfApplication;
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedlnstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = null;
 
-        Context applicationContext = ReadContact.getContextOfApplication();
-        ContentResolver cr = applicationContext.getContentResolver();
+
+        ContentResolver cr = getActivity().getContentResolver();
         Cursor cursor = cr.query(
                 ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
 
@@ -76,10 +71,10 @@ public class ReadContact extends Fragment {
         }
         cursor.close();
 
-        TextView txtResult = (TextView)getView().findViewById(R.id.result);
-        txtResult.setText(result);
-
         view = inflater.inflate(R.layout.readcontact, container, false);
+
+        TextView txtResult = (TextView)view.findViewById(R.id.result);
+        txtResult.setText(result);
 
         return view;
     }

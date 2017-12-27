@@ -3,6 +3,7 @@ package com.example.user.cs496_p1_t3;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,6 +14,11 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    public static Context contextOfApplication;
+    public static Context getContextOfApplication()
+    {
+        return contextOfApplication;
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -20,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+            contextOfApplication = getApplicationContext();
             FragmentManager fm = getFragmentManager();
             FragmentTransaction tr = fm.beginTransaction();
 
