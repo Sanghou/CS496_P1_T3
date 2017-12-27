@@ -1,4 +1,4 @@
-package com.example.user.cs496_project1;
+package com.example.user.cs496_p1_t3;
 
 import android.app.Activity;
 import android.content.ContentResolver;
