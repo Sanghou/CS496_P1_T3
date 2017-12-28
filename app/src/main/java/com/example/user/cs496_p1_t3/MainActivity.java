@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -18,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
+    Vibrator vibrator = null;
     private TextView mTextMessage;
     public static Context contextOfApplication;
     public static Context getContextOfApplication()
@@ -44,14 +45,17 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     tr.replace(R.id.message,frag1);
                     tr.commit();
+                    vibrator.vibrate(500);
                     return true;
                 case R.id.navigation_dashboard:
                     tr.replace(R.id.message,frag2);
                     tr.commit();
+                    vibrator.vibrate(500);
                     return true;
                 case R.id.navigation_notifications:
                     tr.replace(R.id.message,frag3);
                     tr.commit();
+                    vibrator.vibrate(500);
                     return true;
             }
             return false;
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         int PERMISSION_ALL = 1;
         String[] PERMISSIONS = {Manifest.permission.READ_CONTACTS, Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_EXTERNAL_STORAGE};
 
