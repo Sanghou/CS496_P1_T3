@@ -14,13 +14,17 @@
         android:layout_height="wrap_content"
         android:text="Gallery" />
 
-        <ListView
+        <GridView
             android:id="@+id/listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
-        </ListView>
+            android:numColumns="3"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+        </GridView>
 
     </LinearLayout>
 

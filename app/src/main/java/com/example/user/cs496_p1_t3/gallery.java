@@ -37,7 +37,7 @@ public class gallery extends Fragment {
 
     static final int PICK_IMAGE = 1;
 
-    public ListView listViews;
+    public GridView gridViews;
 
     public gallery() {
 
@@ -114,7 +114,7 @@ public class gallery extends Fragment {
 //            layout.addView(iv);
 //        }
 
-        listViews = (ListView)view.findViewById(R.id.listview);
+        gridViews = (GridView)view.findViewById(R.id.listview);
 
         dataSetting();
 
@@ -139,7 +139,7 @@ public class gallery extends Fragment {
             mAdapter.addItem(resize);
             index++;
             }
-        listViews.setAdapter(mAdapter);
+        gridViews.setAdapter(mAdapter);
     }
 
 }
