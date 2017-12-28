@@ -72,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
 
         }
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction tr = fm.beginTransaction();
+
+        Fragment frag1 = new ReadContact();
+        tr.replace(R.id.message,frag1);
+        tr.commit();
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
