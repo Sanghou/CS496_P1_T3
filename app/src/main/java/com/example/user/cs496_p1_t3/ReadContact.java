@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -15,66 +16,101 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReadContact extends Fragment {
 
     public ReadContact(){
 
     }
+    ListView listView = null;
+    ImageButton contacts = null;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = null;
+        View view = inflater.inflate(R.layout.readcontact, container, false);
+        contacts = (ImageButton)view.findViewById(R.id.contacts);
+        listView = (ListView)view.findViewById(R.id.result);
 
+        //inserting button here
 
-        ContentResolver cr = getActivity().getContentResolver();
-        Cursor cursor = cr.query(
-                ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
+        contacts.setOnClickListener(new View.OnClickListener(){
 
-        int ididx = cursor.getColumnIndex(ContactsContract.Contacts._ID);
-        int nameidx = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+            @Override
+            public void onClick(View v){
 
-        StringBuilder result = new StringBuilder();
-        while(cursor.moveToNext())
-        {
-            result.append(cursor.getString(nameidx) + " :");
+                //to do
+                ContentResolver cr = getActivity().getContentResolver();
+                Cursor cursor = cr.query(
+                        ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
 
-            String id = cursor.getString(ididx);
-            Cursor cursor2 = cr.query(ContactsContract.CommonDataKinds.
-            Phone.CONTENT_URI,null,
-                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =?",
-                    new String[]{id},null);
+                int ididx = cursor.getColumnIndex(ContactsContract.Contacts._ID);
+                int nameidx = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
 
-            int typeidx = cursor2.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Phone.TYPE);
+                StringBuilder result = new StringBuilder();
+                while(cursor.moveToNext())
+                {
+                    result.append(cursor.getString(nameidx) + " :");
 
-            int numidx = cursor2.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Phone.NUMBER);
+                    String id = cursor.getString(ididx);
+                    Cursor cursor2 = cr.query(ContactsContract.CommonDataKinds.
+                                    Phone.CONTENT_URI,null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =?",
+                            new String[]{id},null);
 
-            while (cursor2.moveToNext()){
-                String num = cursor2.getString(numidx);
-                switch(cursor2.getInt(typeidx)){
-                    case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE:
-                        result.append(" Mobile:"+num);
-                        break;
-                    case ContactsContract.CommonDataKinds.Phone.TYPE_HOME:
-                        result.append(" Home:"+num);
-                        break;
-                    case ContactsContract.CommonDataKinds.Phone.TYPE_WORK:
-                        result.append(" Work:"+num);
-                        break;
+                    int typeidx = cursor2.getColumnIndex(
+                            ContactsContract.CommonDataKinds.Phone.TYPE);
+
+                    int numidx = cursor2.getColumnIndex(
+                            ContactsContract.CommonDataKinds.Phone.NUMBER);
+
+                    while (cursor2.moveToNext()){
+                        String num = cursor2.getString(numidx);
+                        switch(cursor2.getInt(typeidx)){
+                            case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE:
+                                result.append(" Mobile:"+num);
+                                break;
+                            case ContactsContract.CommonDataKinds.Phone.TYPE_HOME:
+                                result.append(" Home:"+num);
+                                break;
+                            case ContactsContract.CommonDataKinds.Phone.TYPE_WORK:
+                                result.append(" Work:"+num);
+                                break;
+                        }
+                    }
+                    cursor2.close();
+                    result.append("\n");
+
                 }
+                cursor.close();
+
+                //inflate was here
+                String str= result.toString();
+                ArrayList<String>arr_list = new ArrayList<String>();
+
+                String[] str1=str.split("\n");
+                for(int i=0;i<str1.length;i++){
+
+                    arr_list.add(str1[i]);
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                        android.R.layout.simple_list_item_1,  arr_list);
+                // Assign adapter to ListView
+                listView.setAdapter(adapter);
+
+
             }
-            cursor2.close();
-            result.append("\n");
 
-        }
-        cursor.close();
+        });//ends here
 
-        view = inflater.inflate(R.layout.readcontact, container, false);
 
-        TextView txtResult = (TextView)view.findViewById(R.id.result);
-        txtResult.setText(result);
 
         return view;
     }
