@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         int PERMISSION_ALL = 1;
-        String[] PERMISSIONS = {Manifest.permission.READ_CONTACTS, Manifest.permission.RECORD_AUDIO};
+        String[] PERMISSIONS = {Manifest.permission.READ_CONTACTS, Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_EXTERNAL_STORAGE};
 
         if(!hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
