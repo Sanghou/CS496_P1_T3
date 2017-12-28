@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ReadContact extends Fragment {
@@ -103,6 +104,13 @@ public class ReadContact extends Fragment {
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                         android.R.layout.simple_list_item_1,  arr_list);
                 // Assign adapter to ListView
+                adapter.sort(new Comparator<String>(){
+
+                    @Override
+                    public int compare(String arg1,String arg0){
+                        return arg1.compareTo(arg0);
+                    }
+                });
                 listView.setAdapter(adapter);
 
 
