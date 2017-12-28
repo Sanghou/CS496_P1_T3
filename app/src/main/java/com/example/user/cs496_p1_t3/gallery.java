@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,8 @@ public class gallery extends Fragment {
     static final int PICK_IMAGE = 1;
 
     public GridView gridViews;
+
+    public static ArrayList<String> link = gallery_adapter.getLinks();
 
     public gallery() {
 
@@ -99,24 +103,22 @@ public class gallery extends Fragment {
         View view = null;
         view = inflater.inflate(R.layout.gallery, container, false);
 
-//        ListView layout = (ListView) view.findViewById(R.id.listview);
-//
-//        List<String> allimage = getCameraImages();
-//        int len = allimage.size();
-//        int index = 0;
-//
-//        while(index < len){
-//            ImageView iv = new ImageView(getActivity().getApplicationContext());
-//            String imgpath = allimage.get(index);
-//            Bitmap bm = BitmapFactory.decodeFile(imgpath);
-//            Bitmap resize = Bitmap.createScaledBitmap(bm, 300, 400, true);
-//            iv.setImageBitmap(resize);
-//            layout.addView(iv);
-//        }
-
         gridViews = (GridView)view.findViewById(R.id.listview);
 
         dataSetting();
+
+        //gridview item을 image와 link 보유.
+
+        gridViews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                //ArrayList<String> link = gallery_adapter.getLinks();
+                Log.d("ig",link.get(position));
+                Intent i = new Intent(getActivity().getApplicationContext(), ItemClick.class);
+                i.putExtra("id", link.get(position));
+                startActivity(i);
+            }
+        });
 
         return view;
     }
@@ -135,10 +137,12 @@ public class gallery extends Fragment {
             String imgpath = allimage.get(index);
             Log.d("imgpath is ", imgpath);
             Bitmap bm = BitmapFactory.decodeFile(imgpath);
-            Bitmap resize = Bitmap.createScaledBitmap(bm, 300, 400, true);
-            mAdapter.addItem(resize);
+            Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bm,300,300);
+            mAdapter.addItem(thumbnail,imgpath);
             index++;
+            link.add(imgpath);
             }
+
         gridViews.setAdapter(mAdapter);
     }
 
