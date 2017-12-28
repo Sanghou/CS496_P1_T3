@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction tr = fm.beginTransaction();
 
             Fragment frag1 = new ReadContact();
-            Fragment frag2 = new Imagefrag();
+            Fragment frag2 = new gallery();
             Fragment frag3 = new freefrag();
 
             switch (item.getItemId()) {
