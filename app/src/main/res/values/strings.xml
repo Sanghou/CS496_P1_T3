@@ -3,4 +3,5 @@
     <string name="title_home">Contacts</string>
     <string name="title_dashboard">Photos</string>
     <string name="title_notifications">Recorder</string>
+    <string name="facebook_app_id">137308910280434</string>
 </resources>
